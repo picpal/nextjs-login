@@ -1,7 +1,7 @@
 # next-auth login
 
-Login 기본 기능 구현
-next-auth를 이용한 사용자 인증
+Login 기본 기능 구현 <br />
+next-auth를 이용한 사용자 인증 <br />
 현재 진행중... 8월21일 완료 예정
 
 ## 프로젝트 설치

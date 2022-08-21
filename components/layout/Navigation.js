@@ -8,13 +8,13 @@ const NaviWrap = styled.nav`
   border-bottom: 1px solid #ccc;
 `;
 
-const NaviUl = styled.ul`
+const NaviItem = styled.ul`
   display: flex;
-  width: 30%;
+  width: 40%;
   margin: 0 auto;
 
   li {
-    flex: 1 1 60px;
+    flex: 1 1 100px;
     text-align: center;
     padding: 10px 20px;
   }
@@ -32,17 +32,20 @@ const NaviUl = styled.ul`
 const Navigation = () => {
   return (
     <NaviWrap>
-      <NaviUl>
+      <NaviItem>
         <li>
           <Link href="/">메인</Link>
         </li>
         <li>
-          <Link href="/login">로그인</Link>
+          <Link href="/auth/signIn">로그인</Link>
+        </li>
+        <li>
+          <Link href="/auth/signUp">회원가입</Link>
         </li>
         <li>
           <Link href="/profile">프로필</Link>
         </li>
-      </NaviUl>
+      </NaviItem>
     </NaviWrap>
   );
 };

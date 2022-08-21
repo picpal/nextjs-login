@@ -1,8 +1,8 @@
 import React from "react";
-import PasswordModifyForm from "../../components/profile/PasswordModifyForm";
+import ProfileForm from "../../components/profile/ProfileForm";
 
 const Profile = () => {
-  return <PasswordModifyForm />;
+  return <ProfileForm />;
 };
 
 export default Profile;
