@@ -14,6 +14,14 @@
 npm install
 ```
 
+## MongoDB 정보설정
+
+lib/db.js 에는 환경변수로 지정되어있습니다. 프로젝트에 최상단 루트에 .env파일 생성후
+NEXT_PUBLIC_DB_ID, NEXT_PUBLIC_DB_PW 를 지정하여 주시면됩니다.
+ex)
+NEXT_PUBLIC_DB_ID=test
+NEXT_PUBLIC_DB_PW=test@123
+
 ## 프로젝트 실행
 
 ```bash
