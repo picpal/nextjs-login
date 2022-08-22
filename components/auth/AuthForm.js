@@ -54,7 +54,15 @@ const AuthForm = ({ signStat }) => {
     });
 
     const data = await response.json();
-    console.log(data);
+    if (data.message) {
+      alert(data.message);
+    }
+
+    if (response.status === 200) {
+      emailRef.current.value = "";
+      passwordRef.current.value = "";
+      router.replace("/auth/signIn");
+    }
   };
 
   const signInUser = async (email, password) => {
@@ -63,12 +71,11 @@ const AuthForm = ({ signStat }) => {
       email,
       password,
     });
-    console.log(result);
 
     if (!result.error) {
       router.replace("/");
     } else {
-      console.log(result.error);
+      alert(result.error);
     }
   };
 

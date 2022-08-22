@@ -41,7 +41,7 @@ const handler = async (req, res) => {
     .collection("users")
     .insertOne({ email, password: hashedPassword });
 
-  res.status(201).json({ message: "유저 생성완료!!!!" });
+  res.status(200).json({ message: "유저 생성완료!!!!" });
   client.close();
 };
 

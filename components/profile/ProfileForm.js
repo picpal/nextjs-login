@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import styled from "styled-components";
 import { signOut } from "next-auth/client";
 
@@ -35,26 +35,48 @@ const Button = styled.button`
   }
 `;
 
-const submitHandler = (event) => {
-  event.preventDefault();
-};
-
-const signOutHandler = () => {
-  signOut();
-};
-
 const ProfileForm = () => {
+  const oldPasswordRef = useRef();
+  const newPasswordRef = useRef();
+
+  const submitHandler = async (event) => {
+    event.preventDefault();
+
+    const oldPassword = oldPasswordRef.current.value;
+    const newPassword = newPasswordRef.current.value;
+
+    const response = await fetch("/api/auth/changePassword", {
+      method: "PATCH",
+      body: JSON.stringify({ oldPassword, newPassword }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+
+    const data = await response.json();
+    if (data.message) alert(data.message);
+    console.log(response.status);
+    if (response.status === 200) {
+      oldPasswordRef.current.value = "";
+      newPasswordRef.current.value = "";
+    }
+  };
+
+  const signOutHandler = () => {
+    signOut();
+  };
+
   return (
     <>
       <FormWrap>
         <form onSubmit={submitHandler}>
           <Input>
-            <label htmlFor="email">CUR PW</label>
-            <input type="text" id="email" name="email" />
+            <label htmlFor="oldPassword">CUR PW</label>
+            <input type="password" id="oldPassword" ref={oldPasswordRef} />
           </Input>
           <Input>
-            <label htmlFor="password">NEW PW</label>
-            <input type="text" id="password" name="password" />
+            <label htmlFor="newPassword">NEW PW</label>
+            <input type="password" id="newPassword" ref={newPasswordRef} />
           </Input>
           <Button>Change</Button>
         </form>
