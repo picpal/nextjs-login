@@ -1,8 +1,9 @@
 import React from "react";
+import { getSession } from "next-auth/client";
 import { useRouter } from "next/router";
 import AuthForm from "../../components/auth/AuthForm";
 
-const Login = (props) => {
+const AuthPage = () => {
   const router = useRouter();
   const {
     query: { sign },
@@ -11,4 +12,22 @@ const Login = (props) => {
   return <AuthForm signStat={sign} />;
 };
 
-export default Login;
+export async function getServerSideProps(context) {
+  const session = await getSession({ req: context.req });
+  if (session) {
+    return {
+      redirect: {
+        destination: "/",
+        permanent: false,
+      },
+    };
+  }
+
+  return {
+    props: {
+      session,
+    },
+  };
+}
+
+export default AuthPage;

@@ -1,6 +1,7 @@
 import React from "react";
 import Link from "next/link";
 import styled from "styled-components";
+import { useSession } from "next-auth/client";
 
 const NaviWrap = styled.nav`
   width: 100%;
@@ -30,21 +31,19 @@ const NaviItem = styled.ul`
 `;
 
 const Navigation = () => {
+  const [session, loading] = useSession();
+
   return (
     <NaviWrap>
       <NaviItem>
         <li>
-          <Link href="/">메인</Link>
+          <Link href="/">Go Main</Link>
         </li>
-        <li>
-          <Link href="/auth/signIn">로그인</Link>
-        </li>
-        <li>
-          <Link href="/auth/signUp">회원가입</Link>
-        </li>
-        <li>
-          <Link href="/profile">프로필</Link>
-        </li>
+        {session && (
+          <li>
+            <Link href="/profile">Profile</Link>
+          </li>
+        )}
       </NaviItem>
     </NaviWrap>
   );

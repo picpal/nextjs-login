@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useRouter } from "next/router";
 import { signIn } from "next-auth/client";
 import styled from "styled-components";
 
@@ -25,12 +26,12 @@ const Button = styled.button`
   display: block;
   min-width: 100px;
   margin: 30px auto 0 auto;
-  border: 1px solid #ccc;
+  border: 1px solid #fff;
   color: #fff;
   &:hover {
     background-color: skyblue;
     border-color: skyblue;
-    color: #ccc;
+    opacity: 0.8;
   }
 
   ${({ signStat }) => {
@@ -39,10 +40,11 @@ const Button = styled.button`
 `;
 
 const AuthForm = ({ signStat }) => {
+  const router = useRouter();
   const emailRef = useRef();
   const passwordRef = useRef();
 
-  const createUser = async (email, password) => {
+  const signUpUser = async (email, password) => {
     const response = await fetch("/api/auth/signup", {
       method: "POST",
       body: JSON.stringify({ email, password }),
@@ -52,7 +54,6 @@ const AuthForm = ({ signStat }) => {
     });
 
     const data = await response.json();
-
     console.log(data);
   };
 
@@ -62,8 +63,13 @@ const AuthForm = ({ signStat }) => {
       email,
       password,
     });
-
     console.log(result);
+
+    if (!result.error) {
+      router.replace("/");
+    } else {
+      console.log(result.error);
+    }
   };
 
   const submitHandler = (event) => {
@@ -72,7 +78,7 @@ const AuthForm = ({ signStat }) => {
     const password = passwordRef.current.value;
 
     if (signStat === "signUp") {
-      createUser(email, password);
+      signUpUser(email, password);
     }
 
     if (signStat === "signIn") {
@@ -85,16 +91,11 @@ const AuthForm = ({ signStat }) => {
       <form onSubmit={submitHandler}>
         <Input>
           <label htmlFor="email">E-mail</label>
-          <input type="text" id="email" name="email" ref={emailRef} />
+          <input type="text" id="email" ref={emailRef} />
         </Input>
         <Input>
           <label htmlFor="password">Password</label>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            ref={passwordRef}
-          />
+          <input type="password" id="password" ref={passwordRef} />
         </Input>
         <Button signStat={signStat}>{signStat}</Button>
       </form>

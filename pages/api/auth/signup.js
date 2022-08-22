@@ -2,7 +2,9 @@ import { hashPassword } from "../../../lib/auth";
 import connectDB from "../../../lib/db";
 
 const handler = async (req, res) => {
-  const validate = ({ email, password }) => {
+  const { email, password } = req.body;
+
+  const validate = (email, password) => {
     if (!email || !email.includes("@")) {
       res.status(422).json({ message: "이메일 형식이 맞지 않습니다" });
       return;
@@ -17,11 +19,8 @@ const handler = async (req, res) => {
     return;
   }
 
-  const { email, password } = req.body;
-  console.log(email, password);
-
   // 유효성 검증 ( 최소한의 검증만 있음 )
-  validate({ email, password });
+  validate(email, password);
 
   // MongoDB 연결
   const client = await connectDB();
@@ -35,7 +34,7 @@ const handler = async (req, res) => {
   }
 
   // 비밀번호 암호화
-  const hashedPassword = hashPassword(password);
+  const hashedPassword = await hashPassword(password);
 
   // 사용자 정보 db저장
   const result = await db

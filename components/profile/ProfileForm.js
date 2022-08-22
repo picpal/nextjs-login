@@ -1,5 +1,6 @@
 import React from "react";
 import styled from "styled-components";
+import { signOut } from "next-auth/client";
 
 const FormWrap = styled.div`
   width: 50%;
@@ -38,21 +39,28 @@ const submitHandler = (event) => {
   event.preventDefault();
 };
 
+const signOutHandler = () => {
+  signOut();
+};
+
 const ProfileForm = () => {
   return (
-    <FormWrap>
-      <form onSubmit={submitHandler}>
-        <Input>
-          <label htmlFor="email">CUR PW</label>
-          <input type="text" id="email" name="email" />
-        </Input>
-        <Input>
-          <label htmlFor="password">NEW PW</label>
-          <input type="text" id="password" name="password" />
-        </Input>
-        <Button>Change</Button>
-      </form>
-    </FormWrap>
+    <>
+      <FormWrap>
+        <form onSubmit={submitHandler}>
+          <Input>
+            <label htmlFor="email">CUR PW</label>
+            <input type="text" id="email" name="email" />
+          </Input>
+          <Input>
+            <label htmlFor="password">NEW PW</label>
+            <input type="text" id="password" name="password" />
+          </Input>
+          <Button>Change</Button>
+        </form>
+      </FormWrap>
+      <Button onClick={signOutHandler}>SignOut</Button>
+    </>
   );
 };
 
